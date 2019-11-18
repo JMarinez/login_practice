@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:login_practice/Home/homePage.dart';
+import 'package:login_practice/Register/registerPage.dart';
+
 //import './loginForm.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,29 +17,15 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
 
-  final String user = "juanjosemf";
-  final String password = "modapalafoka3";
+  final String user = 'juanjosemf';
+  final String password = 'modapalafoka3';
+
+  final String failedLogin = "Account doesn't exist. Please try again";
 
   static String inputUser;
   static String inputPass;
 
-  Future<void> _showAlertDialog() async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        if (user == inputUser && password == inputPass) {
-          return AlertDialog(
-            title: Text('Sesion Iniciada!'),
-            content: Text('Bienvenido, $user!'),
-          );
-        }
-        return AlertDialog(
-          title: Text("Error!"),
-          content: Text("Credenciales no existen en la base de datos."),
-        );
-      },
-    );
-  }
+  bool showText = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +34,8 @@ class _LoginPageState extends State<LoginPage> {
         children: <Widget>[
           Container(
             child: Image.asset('assets/images/intec.jpg'),
-            width: 200,
-            height: 200,
+            width: 150,
+            height: 150,
             alignment: Alignment.center,
           ),
           Form(
@@ -75,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Por favor suministrar nombre de usuario';
+                          return 'Please fill in your username';
                         }
                         inputUser = value.toString();
                         return null;
@@ -101,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                       obscureText: true,
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Por favor suministrar contraseña';
+                          return 'Please fill in your password';
                         }
                         inputPass = value.toString();
                         return null;
@@ -111,6 +100,20 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
+          ),
+          AnimatedOpacity(
+            child: Container(
+              child: Text(
+                failedLogin,
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 15,
+                ),
+              ),
+              padding: EdgeInsets.all(8.0),
+            ),
+            opacity: showText ? 1 : 0,
+            duration: Duration(milliseconds: 500),
           ),
           RaisedButton(
             child: Text(
@@ -127,10 +130,29 @@ class _LoginPageState extends State<LoginPage> {
             padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
             onPressed: () {
               if (formKey.currentState.validate()) {
-                _showAlertDialog();
+                if (user != inputUser || password != inputPass) {
+                  setState(() {
+                    showText = true;
+                  });
+                } else {
+                  setState(() {
+                    showText = false;
+                  });
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomePage()));
+                }
               }
             },
           ),
+          FlatButton(
+            child: Text('Register'),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterPage()),
+              );
+            },
+          )
         ],
         mainAxisAlignment: MainAxisAlignment.center,
       ),
