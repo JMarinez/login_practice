@@ -147,10 +147,7 @@ class _LoginPageState extends State<LoginPage> {
           FlatButton(
             child: Text('Register'),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RegisterPage()),
-              );
+              _returnAccount(context);
             },
           )
         ],
@@ -158,5 +155,12 @@ class _LoginPageState extends State<LoginPage> {
       ),
       backgroundColor: Colors.white,
     );
+  }
+
+  _returnAccount(BuildContext context) async {
+    final result = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => RegisterPage()));
+
+    print(result);
   }
 }

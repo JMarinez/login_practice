@@ -10,6 +10,8 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
 
+  final messageController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                       child: TextFormField(
+                        controller: messageController,
                         decoration: InputDecoration(
                           labelText: 'Name',
                           prefixIcon: Icon(
@@ -157,7 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
               padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  return null;
+                  Navigator.pop(context, messageController.text);
                 }
               },
             ),
