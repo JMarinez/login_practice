@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
-class LoginButton extends StatelessWidget {
-  final Key key;
+class SubmitButton extends StatelessWidget {
+  final String buttonText;
+  final Function onPressedHandler;
 
-  LoginButton({this.key});
+  SubmitButton({this.buttonText, this.onPressedHandler});
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
       child: Text(
-        'Log In',
+        buttonText,
         style: TextStyle(
           fontSize: 20,
         ),
@@ -20,7 +21,7 @@ class LoginButton extends StatelessWidget {
       disabledTextColor: Colors.black,
       splashColor: Colors.redAccent,
       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-      onPressed: null,
+      onPressed: onPressedHandler,
     );
   }
 }
